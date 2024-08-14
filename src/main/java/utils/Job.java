@@ -30,11 +30,23 @@ public class Job implements Serializable {
      * 岗位薪水
      */
     private String salary;
-
     /**
      * 公司标签
      */
     private String companyTag;
+
+    /**
+     * 公司行业
+     */
+    private String companyIndustry;
+    /**
+     * 公司状况
+     */
+    private String companyStatus;
+    /**
+     * 公司人数
+     */
+    private String companyNum;
 
     /**
      * HR名称
@@ -50,6 +62,11 @@ public class Job implements Serializable {
      * 公司信息
      */
     private String companyInfo;
+
+    /**
+     * HR
+     */
+    private String hr;
 
     @Override
     public String toString() {
