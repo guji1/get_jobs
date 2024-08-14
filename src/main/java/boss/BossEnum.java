@@ -50,7 +50,19 @@ public class BossEnum {
         SHANGHAI("上海", "101020100"),
         GUANGZHOU("广州", "101280100"),
         SHENZHEN("深圳", "101280600"),
-        CHENGDU("成都", "101270100");
+        CHENGDU("成都", "101270100"),
+        HANGZHO("杭州", "101210100"),
+        TIANJIN("天津", "101030100"),
+        XIAN("西安", "101110100"),
+        SUZHO("苏州", "101190400"),
+        WUHAN("武汉", "101200100"),
+        XIAMEN("厦门", "101230200"),
+        CHANGSHA("长沙", "101250100"),
+        ZHENGZHO("郑州", "101180100"),
+        CHONGQ("重庆", "101040100"),
+        YONGZHO("永州", "101251300");
+
+
 
         private final String name;
         private final String code;
@@ -68,6 +80,15 @@ public class BossEnum {
                 }
             }
             return NULL;
+        }
+
+        public static String getName(String code) {
+            for (CityCode cityCode : CityCode.values()) {
+                if (cityCode.code.equals(code)) {
+                    return cityCode.name;
+                }
+            }
+            return "";
         }
 
     }

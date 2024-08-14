@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 @Data
 public class BossConfig {
+
+
+
     /**
      * 用于打招呼的语句
      */
@@ -59,6 +62,11 @@ public class BossConfig {
      */
     private List<String> stage;
 
+    /**
+     * 行业分类
+     */
+    private String industryDirectory;
+
     @SneakyThrows
     public static BossConfig init() {
         BossConfig config = JobUtils.getConfig(BossConfig.class);
@@ -82,5 +90,7 @@ public class BossConfig {
 
         return config;
     }
+
+
 
 }
