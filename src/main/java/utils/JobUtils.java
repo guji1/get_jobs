@@ -2,31 +2,77 @@ package utils;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import entity.JobInfo;
 import lombok.SneakyThrows;
 import mapper.*;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.json.JSONObject;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static utils.Constant.UNLIMITED_CODE;
 
 public class JobUtils {
 
+    public static void upsetJobInfo(String companyName, String jobPosition, String jobAddress,
+                                    String companyNum, String companyStatus, String companyIndustry, String jobTag, String jobHref,
+                                    String jobSalary, String jobEducation, String jobExperience, String jobHr,
+                                    String jobSource, String city, String IndustryDirectory) {
+        JobInfo jobInfo = new JobInfo();
+        jobInfo.setWorkExperience(jobExperience);
+        jobInfo.setEducation(jobEducation);
+        jobInfo.setAddress(jobAddress);
+        jobInfo.setCompanyName(companyName);
+        jobInfo.setJobPosition(jobPosition);
+        jobInfo.setTreatment(jobSalary);
+        jobInfo.setUpdateDate(new Date());
+        jobInfo.setSource(jobSource);
+        jobInfo.setHr(jobHr);
+        jobInfo.setJobTag(jobTag);
+        jobInfo.setHref(jobHref);
+        jobInfo.setCompanyIndustry(companyIndustry);
+        jobInfo.setCompanyNum(companyNum);
+        jobInfo.setCompanyStatus(companyStatus);
+        jobInfo.setIndustryDirectory(IndustryDirectory);
+        jobInfo.setCity(city);
+
+        SqlSessionFactory jobInfoSessionFactory = getJobInfoSessionFactory();
+        //初始化
+        try (SqlSession session = jobInfoSessionFactory.openSession(true)) {
+            //创建mapper对象
+            JobInfoMapper mapper = session.getMapper(JobInfoMapper.class);
+            QueryWrapper<JobInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("company_name", jobInfo.getCompanyName());
+            queryWrapper.eq("treatment", jobInfo.getTreatment());
+            queryWrapper.eq("job_position", jobInfo.getJobPosition());
+            queryWrapper.eq("source", jobInfo.getSource());
+            JobInfo info = mapper.selectOne(queryWrapper);
+            if (info != null) {
+                mapper.updateById(jobInfo);
+            } else {
+                jobInfo.setCreateDate(new Date());
+                mapper.insert(jobInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static SqlSessionFactory getUpJobSessionFactory(){
-        return initSqlSessionUpJobMapper();
+    return initSqlSessionUpJobMapper();
     }
     public static SqlSessionFactory getUpResponseSessionFactory(){
         return initSqlSessionUpResponseMapper();
@@ -138,6 +184,28 @@ public class JobUtils {
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
+    }
+
+    /**
+     * 将JSON字符串转换为Map
+     *
+     * @param jsonString JSON字符串
+     * @return Map 字符串对应的Map对象
+     */
+    public static Map<String, String> jsonToMap(String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        Map<String, String> map = new HashMap<>();
+        // 将JSONObject中的键值对转换为Map
+        Iterator<String> keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            String value = null;
+            if (jsonObject.get(key) != null){
+                value = jsonObject.get(key).toString();
+            }
+            map.put(key, value);
+        }
+        return map;
     }
 
 

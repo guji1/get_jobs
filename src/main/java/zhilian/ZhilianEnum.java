@@ -1,6 +1,7 @@
 package zhilian;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import job51.Job51Enum;
 import lombok.Getter;
 
 public class ZhilianEnum {
@@ -12,7 +13,16 @@ public class ZhilianEnum {
         SHANGHAI("上海", "538"),
         GUANGZHOU("广州", "763"),
         SHENZHEN("深圳", "765"),
-        CHENGDU("成都", "801");
+        CHENGDU("成都", "801"),
+        HANGZHO("杭州", "653"),
+        TIANJIN("天津", "531"),
+        XIAN("西安", "854"),
+        SUZHO("苏州", "639"),
+        WUHAN("武汉", "736"),
+        XIAMEN("厦门", "682"),
+        CHANGSHA("长沙", "749"),
+        ZHENGZHO("郑州", "719"),
+        CHONGQ("重庆", "551");
 
         private final String name;
         private final String code;
@@ -30,6 +40,16 @@ public class ZhilianEnum {
                 }
             }
             return NULL;
+        }
+
+        @JsonCreator
+        public static String forName(String value) {
+            for (ZhilianEnum.CityCode cityCode : ZhilianEnum.CityCode.values()) {
+                if (cityCode.code.equals(value)) {
+                    return cityCode.name;
+                }
+            }
+            return "";
         }
     }
 

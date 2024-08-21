@@ -25,7 +25,10 @@ public class Job51Config {
      * 薪资范围
      */
     private List<String> salary;
-
+    /**
+     * 行业分类
+     */
+    private String industryDirectory;
 
     @SneakyThrows
     public static Job51Config init() {

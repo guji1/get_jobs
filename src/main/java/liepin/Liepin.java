@@ -29,9 +29,12 @@ public class Liepin {
     public static void main(String[] args) {
         SeleniumUtil.initDriver();
         login();
-        for (String keyword : config.getKeywords()) {
-            submit(keyword);
+        for (String cityCode : config.getCityCodes()) {
+            for (String keyword : config.getKeywords()) {
+                submit(keyword,cityCode);
+            }
         }
+
         printResult();
         CHROME_DRIVER.close();
         CHROME_DRIVER.quit();
@@ -46,8 +49,8 @@ public class Liepin {
     }
 
     @SneakyThrows
-    private static void submit(String keyword) {
-        CHROME_DRIVER.get(getSearchUrl() + "&key=" + keyword);
+    private static void submit(String keyword,String cityCode) {
+        CHROME_DRIVER.get(getSearchUrl(cityCode) + "&key=" + keyword);
         WAIT.until(ExpectedConditions.presenceOfElementLocated(By.className("list-pagination-box")));
         WebElement div = CHROME_DRIVER.findElement(By.className("list-pagination-box"));
         List<WebElement> lis = div.findElements(By.tagName("li"));
@@ -68,11 +71,11 @@ public class Liepin {
         log.info("【{}】关键词投递完成！", keyword);
     }
 
-    private static String getSearchUrl() {
+    private static String getSearchUrl(String cityCode) {
         return baseUrl +
-                JobUtils.appendParam("city", config.getCityCode()) +
+                JobUtils.appendParam("city",cityCode) +
                 JobUtils.appendParam("salary", config.getSalary()) +
-                "&currentPage=" + 0 + "&dq=" + config.getCityCode();
+                "&currentPage=" + 0 + "&dq=" + cityCode;
     }
 
 

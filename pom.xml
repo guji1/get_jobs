@@ -34,7 +34,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.28</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
         <!--mybatis-plus的springboot支持-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -49,7 +53,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.6.10</version>
+            <version>5.7.16</version> <!-- 请使用最新的稳定版本 -->
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

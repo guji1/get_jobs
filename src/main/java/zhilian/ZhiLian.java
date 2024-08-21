@@ -39,11 +39,14 @@ public class ZhiLian {
         SeleniumUtil.initDriver();
         Date start = new Date();
         login();
-        config.getKeywords().forEach(keyword -> {
-            CHROME_DRIVER.get(getSearchUrl(keyword, 1));
-            submitJobs(keyword);
-            isLimit = false;
+        config.getCityCodes().forEach(cityCode ->{
+            config.getKeywords().forEach(keyword -> {
+                CHROME_DRIVER.get(getSearchUrl(keyword, 1,cityCode));
+                submitJobs(keyword,cityCode);
+                isLimit = false;
+            });
         });
+
         Date end = new Date();
         log.info(resultList.isEmpty() ? "未投递新的岗位..." : "新投递公司如下:\n{}", resultList.stream().map(Object::toString).collect(Collectors.joining("\n")));
         long durationSeconds = (end.getTime() - start.getTime()) / 1000;
@@ -56,15 +59,15 @@ public class ZhiLian {
         CHROME_DRIVER.quit();
     }
 
-    private static String getSearchUrl(String keyword, int page) {
+    private static String getSearchUrl(String keyword, int page,String city) {
         return homeUrl +
-                JobUtils.appendParam("jl", config.getCityCode()) +
+                JobUtils.appendParam("jl", city) +
                 JobUtils.appendParam("kw", keyword) +
                 JobUtils.appendParam("sl", config.getSalary()) +
                 "&p=" + page;
     }
 
-    private static void submitJobs(String keyword) {
+    private static void submitJobs(String keyword,String cityCode) {
         if (isLimit) {
             return;
         }
@@ -72,7 +75,7 @@ public class ZhiLian {
         setMaxPages();
         for (int i = 1; i <= maxPage; i++) {
             if (i != 1) {
-                CHROME_DRIVER.get(getSearchUrl(keyword, i));
+                CHROME_DRIVER.get(getSearchUrl(keyword, i,cityCode));
             }
             log.info("开始投递【{}】关键词，第【{}】页...", keyword, i);
             // 等待岗位出现

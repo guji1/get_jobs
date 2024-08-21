@@ -330,7 +330,6 @@ public class BossCount {
                 jobInfo.setCompanyName(job.getCompanyName());
                 jobInfo.setJobPosition(jobName);
                 jobInfo.setTreatment(job.getSalary());
-                jobInfo.setCreateDate(new Date());
                 jobInfo.setUpdateDate(new Date());
                 jobInfo.setSource("Boss");
                 jobInfo.setHr(job.getHr());
@@ -357,6 +356,7 @@ public class BossCount {
                     if (info != null) {
                         mapper.updateById(jobInfo);
                     } else {
+                        jobInfo.setCreateDate(new Date());
                         mapper.insert(jobInfo);
                     }
                 } catch (Exception e) {

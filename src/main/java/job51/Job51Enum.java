@@ -12,7 +12,16 @@ public class Job51Enum {
         SHANGHAI("上海", "020000"),
         GUANGZHOU("广州", "030200"),
         SHENZHEN("深圳", "040000"),
-        CHENGDU("成都", "090200");
+        CHENGDU("成都", "090200"),
+        HANGZHO("杭州", "080200"),
+        TIANJIN("天津", "050000"),
+        XIAN("西安", "200200"),
+        SUZHO("苏州", "070300"),
+        WUHAN("武汉", "180200"),
+        XIAMEN("厦门", "110300"),
+        CHANGSHA("长沙", "190200"),
+        ZHENGZHO("郑州", "170200"),
+        CHONGQ("重庆", "060000");
         private final String name;
         private final String code;
 
@@ -29,6 +38,16 @@ public class Job51Enum {
                 }
             }
             return NULL;
+        }
+
+        @JsonCreator
+        public static String forName(String value) {
+            for (jobArea cityCode : jobArea.values()) {
+                if (cityCode.code.equals(value)) {
+                    return cityCode.name;
+                }
+            }
+            return "";
         }
 
     }

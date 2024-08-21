@@ -1,5 +1,7 @@
 import boss.Boss;
+import boss.BossCount;
 import job51.Job51;
+import job51.Job51Count;
 import lagou.Lagou;
 import lombok.extern.slf4j.Slf4j;
 import zhilian.ZhiLian;
@@ -10,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class StartAll {
+public class StartAllCount {
 
     public static void main(String[] args) {
         // 创建一个调度任务的服务，线程池大小为4，确保任务按顺序执行
@@ -18,14 +20,14 @@ public class StartAll {
 
 
         // 调度执行
-        scheduleTask(scheduler, StartAll::runAllPlatforms);
+        scheduleTask(scheduler, StartAllCount::runAllPlatforms);
     }
 
     private static void runAllPlatforms() {
-        safeRun(() -> Boss.main(null));
-        safeRun(() -> Job51.main(null));
-        safeRun(() -> ZhiLian.main(null));
-        safeRun(() -> Lagou.main(null));
+        safeRun(() -> BossCount.main(null));
+        safeRun(() -> Job51Count.main(null));
+//        safeRun(() -> ZhiLian.main(null));
+//        safeRun(() -> Lagou.main(null));
     }
 
     private static void scheduleTask(ScheduledExecutorService scheduler, Runnable task) {

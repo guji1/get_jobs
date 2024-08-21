@@ -34,7 +34,7 @@ public class JobInfo implements Serializable {
     /**岗位*/
     private String jobPosition;
     /**地址*/
-    private String address;
+    private String address  ;
     /**待遇*/
     private String treatment;
     /**工作年限*/
